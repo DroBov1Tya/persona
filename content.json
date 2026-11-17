@@ -1,21 +1,16 @@
 {
   "en": {
     "seo": {
-      "title": "Neil Ermak — Security, with intent",
-      "description": "Neil Ermak — Application Security Engineer and Rust developer building secure infrastructure."
+      "title": "Neil Ermak — Application Security Engineer",
+      "description": "Neil Ermak is an Application Security Engineer who builds open-source tools in Rust, including the Dusk Code coding agent."
     },
     "common": {
       "skip_to_content": "Skip to content",
-      "home": "Neil Ermak home",
+      "home": "Neil Ermak, top of page",
       "main_navigation": "Main navigation",
-      "switch_to_russian": "Switch language to Russian",
-      "switch_to_english": "Switch language to English",
-      "toggle_navigation": "Toggle navigation",
-      "open_project": "OPEN PROJECT",
-      "showing_projects": "Showing {count} projects",
-      "more_work": "More experiments, notes and tools live on GitHub.",
-      "back_to_top": "BACK TO TOP ↑",
-      "language_button": "RU ↗"
+      "switch_language": "Switch language to Russian",
+      "language_button": "RU",
+      "showing_projects": "Showing {count} projects"
     },
     "links": {
       "linkedin": "https://www.linkedin.com/in/neil-ermak/",
@@ -24,12 +19,11 @@
       "telegram_channel": "https://t.me/drob_em_all"
     },
     "header": {
-      "brand": "NEIL ERMAK",
-      "mark": "N·E",
+      "brand": "Neil Ermak",
       "navigation": [
         {
           "id": "work",
-          "label": "Selected work"
+          "label": "Projects"
         },
         {
           "id": "about",
@@ -42,27 +36,44 @@
       ]
     },
     "hero": {
-      "art_alt": "Abstract terrain map with glowing paths",
-      "eyebrow": "APPLICATION SECURITY ENGINEER",
-      "title_first": "Security,",
-      "title_second": "with intent.",
-      "description": "I work across application security, Rust systems, search and data pipelines, and AI-agent tooling — making trust boundaries and failure modes easier to reason about.",
-      "primary_action": "Explore selected work",
-      "linkedin_action": "LinkedIn ↗",
-      "focus_label": "FOCUS",
-      "focus_value": "AppSec / Rust / Python",
-      "building_label": "BUILDING",
-      "building_value": "Tools with a point of view",
-      "caption_index": "FIG. 01",
-      "caption": "A surface, made legible.",
-      "scroll_label": "Scroll to selected work"
+      "name": "Neil Ermak",
+      "role": "Application Security Engineer · Rust",
+      "description": "I work on application security and build systems in Rust: a coding agent, search and data pipelines, and tooling for AI agents. The aim is trust boundaries and failure modes that are easy to reason about.",
+      "primary_action": "See the projects",
+      "github_action": "GitHub",
+      "linkedin_action": "LinkedIn"
     },
     "work": {
-      "eyebrow": "01 / SELECTED SYSTEMS",
-      "title_first": "Things built to",
-      "title_second": "hold up.",
-      "description": "A handful of tools across security, infrastructure and data. Each starts with a real friction point.",
+      "title": "Projects",
+      "description": "Open-source tools for security, infrastructure and data. Each one started from a specific problem.",
+      "featured": {
+        "label": "Main project",
+        "name": "Dusk Code",
+        "stack": "Rust · MIT · macOS and Linux",
+        "description": "An open-source coding agent in Rust. One core holds the logic and state; the desktop app, the terminal client and the browser client draw the same chats over one protocol. It works with OpenAI, Anthropic, Google, OpenAI-compatible servers and local models, keeps chat history on your machine, and installs sandboxed plugins from a signed store.",
+        "image": "./assets/covers/dusk-code.webp",
+        "image_alt": "The Dusk Code desktop app showing a project chat and its task list",
+        "links": [
+          {
+            "label": "Repository",
+            "url": "https://github.com/DroBov1Tya/dusk_code"
+          },
+          {
+            "label": "Website",
+            "url": "https://drobov1tya.github.io/dusk_code/"
+          },
+          {
+            "label": "Releases",
+            "url": "https://github.com/DroBov1Tya/dusk_code/releases"
+          },
+          {
+            "label": "Plugin store",
+            "url": "https://github.com/DroBov1Tya/duskcode-plugins"
+          }
+        ]
+      },
       "filter_label": "Filter projects",
+      "details_toggle": "More about this project",
       "filters": [
         {
           "id": "All",
@@ -85,76 +96,59 @@
           "label": "Data systems"
         }
       ],
-      "all_projects_action": "View all repositories ↗",
       "projects": [
         {
           "name": "Aether",
           "area": "Security",
           "area_label": "Security",
-          "mark": "A/01",
           "stack": "Rust · distributed recon",
           "url": "https://github.com/DroBov1Tya/Aether",
-          "index": "01",
-          "description": "A self-hosted reconnaissance platform. Distributed agents, passive discovery and a searchable history of your own attack surface.",
-          "cover": "./assets/covers/aether.webp",
-          "details": "The platform combines distributed scan agents with searchable findings, turning reconnaissance into an ongoing view of your own exposed surface."
+          "description": "A self-hosted reconnaissance platform: distributed agents, passive discovery and a searchable history of your own attack surface.",
+          "details": "Distributed scan agents feed a searchable store of findings, so reconnaissance becomes an ongoing view of your own exposed surface."
         },
         {
           "name": "Kali MCP",
           "area": "Security",
           "area_label": "Security",
-          "mark": "K/02",
           "stack": "Python · Docker · MCP",
           "url": "https://github.com/DroBov1Tya/kali-mcp",
-          "index": "02",
           "description": "A contained Kali environment for AI agents, guarded by a gateway and a network kill switch.",
-          "cover": "./assets/covers/kali-mcp.webp",
-          "details": "A gateway mediates access for AI agents, while the network kill switch provides a clear operator-controlled stop for outbound connectivity."
+          "details": "A gateway mediates what AI agents can reach, and the network kill switch gives the operator a clear stop for outbound connectivity."
         },
         {
           "name": "Rusty Hook",
           "area": "Infrastructure",
           "area_label": "Infrastructure",
-          "mark": "R/03",
           "stack": "Rust · Leptos · PostgreSQL",
           "url": "https://github.com/DroBov1Tya/Rusty-Hook",
-          "index": "03",
           "description": "A self-hosted webhook inspector with a live event feed, typed request views and configurable responses.",
-          "cover": "./assets/covers/rusty-hook.webp",
-          "details": "Inspect incoming webhook events as they arrive, examine structured request details and shape the response your integration receives."
+          "details": "Watch incoming webhook events as they arrive, read the structured request details and set the response your integration receives."
         },
         {
           "name": "PentaCore",
           "area": "AI tooling",
           "area_label": "AI tooling",
-          "mark": "P/04",
           "stack": "Rust · MCP · SQLite",
           "url": "https://github.com/DroBov1Tya/PentaCore",
-          "index": "04",
           "description": "Persistent working memory for AI agents: goals, attempts and findings that carry across sessions.",
-          "cover": "./assets/covers/pentacore.webp",
-          "details": "Store agent goals, attempts and findings across sessions, with SQLite-backed full-text search for returning to the right context."
+          "details": "Agent goals, attempts and findings are stored across sessions, with SQLite full-text search for getting back to the right context."
         },
         {
           "name": "DBMorph",
           "area": "Data systems",
           "area_label": "Data systems",
-          "mark": "D/05",
           "stack": "Rust · streaming ETL",
           "url": "https://github.com/DroBov1Tya/DBMorph",
-          "index": "05",
           "description": "A streaming converter for large, messy data files. Detects encoding, repairs rows and keeps memory use flat.",
-          "cover": "./assets/covers/dbmorph.webp",
-          "details": "Process large CSV, TXT and SQL dumps as streams, detect encodings and delimiters automatically, and avoid loading the full dataset into memory."
+          "details": "Large CSV, TXT and SQL dumps are processed as streams; encodings and delimiters are detected automatically, and the full dataset is never loaded into memory."
         }
       ],
-      "details_toggle": "More about this project"
+      "more_work": "Other experiments and tools are on GitHub.",
+      "all_projects_action": "All repositories"
     },
     "about": {
-      "eyebrow": "02 / HOW I THINK",
-      "title_first": "Make the",
-      "title_second": "invisible visible.",
-      "description": "Security is a way of seeing systems clearly: where trust sits, where it leaks, and what happens when the happy path ends.",
+      "title": "Approach",
+      "description": "Security is a way of seeing a system clearly: where trust sits, where it leaks, and what happens when the happy path ends.",
       "principles": [
         {
           "title": "Probe the logic",
@@ -168,43 +162,34 @@
           "title": "Keep it inspectable",
           "description": "Useful systems make their state, assumptions and failure modes legible to the people operating them."
         }
-      ],
-      "ticker": "SECURITY IS A PRACTICE  ·  RUST IS A TOOL  ·  CURIOSITY IS THE METHOD"
+      ]
     },
     "contact": {
-      "eyebrow": "03 / OPEN CHANNEL",
-      "title_first": "Have a system",
-      "title_second": "worth questioning?",
-      "description": "Good work starts with a specific problem and an honest conversation.",
-      "action": "Start a conversation",
-      "linkedin_label": "LinkedIn ↗",
-      "github_label": "GitHub ↗",
-      "telegram_label": "Telegram ↗",
-      "telegram_channel_label": "Telegram channel ↗",
-      "social_links_label": "Social links"
+      "title": "Contact",
+      "description": "If you have a specific problem in application security or Rust tooling, write to me.",
+      "action": "Message on LinkedIn",
+      "github_label": "GitHub",
+      "telegram_label": "Telegram",
+      "telegram_channel_label": "Telegram channel",
+      "social_links_label": "Other places"
     },
     "footer": {
-      "tagline": "Built with Rust, curiosity and care.",
-      "copyright": "© 2026"
+      "tagline": "Neil Ermak · built with Rust and Yew",
+      "back_to_top": "Back to top"
     }
   },
   "ru": {
     "seo": {
-      "title": "Neil Ermak — Безопасность со смыслом",
-      "description": "Neil Ermak — AppSec инженер и Rust-разработчик защищённой инфраструктуры."
+      "title": "Neil Ermak — Application Security Engineer",
+      "description": "Neil Ermak — Application Security Engineer. Пишет open-source инструменты на Rust, среди них агент для программирования Dusk Code."
     },
     "common": {
       "skip_to_content": "Перейти к содержимому",
-      "home": "На главную — Neil Ermak",
+      "home": "Neil Ermak, к началу страницы",
       "main_navigation": "Основная навигация",
-      "switch_to_russian": "Переключить язык на русский",
-      "switch_to_english": "Переключить язык на английский",
-      "toggle_navigation": "Открыть меню",
-      "open_project": "ПРОЕКТ",
-      "showing_projects": "Показано проектов: {count}",
-      "more_work": "Другие эксперименты и инструменты — на GitHub.",
-      "back_to_top": "НАВЕРХ ↑",
-      "language_button": "EN ↗"
+      "switch_language": "Переключить язык на английский",
+      "language_button": "EN",
+      "showing_projects": "Показано проектов: {count}"
     },
     "links": {
       "linkedin": "https://www.linkedin.com/in/neil-ermak/",
@@ -213,8 +198,7 @@
       "telegram_channel": "https://t.me/drob_em_all"
     },
     "header": {
-      "brand": "NEIL ERMAK",
-      "mark": "N·E",
+      "brand": "Neil Ermak",
       "navigation": [
         {
           "id": "work",
@@ -231,27 +215,44 @@
       ]
     },
     "hero": {
-      "art_alt": "Абстрактная карта рельефа со светящимися маршрутами",
-      "eyebrow": "APPSEC ENGINEER",
-      "title_first": "Безопасность",
-      "title_second": "с умыслом.",
-      "description": "Работаю на стыке AppSec, систем на Rust, поиска и обработки данных, а также инструментов для AI-агентов — помогаю яснее видеть границы доверия и сценарии отказа.",
+      "name": "Neil Ermak",
+      "role": "Application Security Engineer · Rust",
+      "description": "Занимаюсь безопасностью приложений и пишу системы на Rust: агент для программирования, поиск и обработка данных, инструменты для AI-агентов. Цель — границы доверия и сценарии отказа, которые легко понять.",
       "primary_action": "Смотреть проекты",
-      "linkedin_action": "LinkedIn ↗",
-      "focus_label": "ФОКУС",
-      "focus_value": "AppSec / Rust / Python",
-      "building_label": "СОЗДАЮ",
-      "building_value": "Инструменты с характером",
-      "caption_index": "FIG. 01",
-      "caption": "Поверхность, которую можно прочитать.",
-      "scroll_label": "К проектам"
+      "github_action": "GitHub",
+      "linkedin_action": "LinkedIn"
     },
     "work": {
-      "eyebrow": "01 / ВЫБРАННЫЕ СИСТЕМЫ",
-      "title_first": "Системы, созданные",
-      "title_second": "на прочность.",
-      "description": "Инструменты для безопасности, инфраструктуры и данных. Каждый начинается с конкретной проблемы.",
+      "title": "Проекты",
+      "description": "Open-source инструменты для безопасности, инфраструктуры и данных. Каждый начался с конкретной проблемы.",
+      "featured": {
+        "label": "Основной проект",
+        "name": "Dusk Code",
+        "stack": "Rust · MIT · macOS и Linux",
+        "description": "Open-source агент для программирования на Rust. Одно ядро хранит логику и состояние; desktop-приложение, терминальный клиент и браузерный клиент показывают одни и те же чаты через один протокол. Работает с OpenAI, Anthropic, Google, OpenAI-совместимыми серверами и локальными моделями, хранит историю чатов на вашей машине и устанавливает плагины в песочнице из подписанного магазина.",
+        "image": "./assets/covers/dusk-code.webp",
+        "image_alt": "Desktop-приложение Dusk Code: чат проекта и список задач",
+        "links": [
+          {
+            "label": "Репозиторий",
+            "url": "https://github.com/DroBov1Tya/dusk_code"
+          },
+          {
+            "label": "Сайт",
+            "url": "https://drobov1tya.github.io/dusk_code/"
+          },
+          {
+            "label": "Релизы",
+            "url": "https://github.com/DroBov1Tya/dusk_code/releases"
+          },
+          {
+            "label": "Магазин плагинов",
+            "url": "https://github.com/DroBov1Tya/duskcode-plugins"
+          }
+        ]
+      },
       "filter_label": "Фильтр проектов",
+      "details_toggle": "Подробнее о проекте",
       "filters": [
         {
           "id": "All",
@@ -274,107 +275,86 @@
           "label": "Данные"
         }
       ],
-      "all_projects_action": "Все репозитории ↗",
       "projects": [
         {
           "name": "Aether",
           "area": "Security",
           "area_label": "Безопасность",
-          "mark": "A/01",
           "stack": "Rust · distributed recon",
           "url": "https://github.com/DroBov1Tya/Aether",
-          "index": "01",
-          "description": "Self-hosted платформа разведки: распределённые агенты, пассивный поиск и история собственной поверхности атаки.",
-          "cover": "./assets/covers/aether.webp",
-          "details": "Платформа объединяет распределённых агентов сканирования и поиск по находкам, помогая постоянно отслеживать собственную поверхность атаки."
+          "description": "Self-hosted платформа разведки: распределённые агенты, пассивный поиск и история собственной поверхности атаки с поиском.",
+          "details": "Распределённые агенты сканирования пишут находки в хранилище с поиском, и разведка становится постоянным обзором собственной открытой поверхности."
         },
         {
           "name": "Kali MCP",
           "area": "Security",
           "area_label": "Безопасность",
-          "mark": "K/02",
           "stack": "Python · Docker · MCP",
           "url": "https://github.com/DroBov1Tya/kali-mcp",
-          "index": "02",
-          "description": "Изолированная среда Kali для AI-агентов: gateway и сетевой kill switch ограничивают доступ.",
-          "cover": "./assets/covers/kali-mcp.webp",
-          "details": "Gateway контролирует доступ AI-агентов, а сетевой kill switch позволяет оператору немедленно остановить исходящие подключения."
+          "description": "Изолированная среда Kali для AI-агентов под защитой gateway и сетевого kill switch.",
+          "details": "Gateway определяет, до чего могут дотянуться AI-агенты, а сетевой kill switch даёт оператору понятный способ остановить исходящие подключения."
         },
         {
           "name": "Rusty Hook",
           "area": "Infrastructure",
           "area_label": "Инфраструктура",
-          "mark": "R/03",
           "stack": "Rust · Leptos · PostgreSQL",
           "url": "https://github.com/DroBov1Tya/Rusty-Hook",
-          "index": "03",
-          "description": "Self-hosted инспектор webhook-запросов с live-лентой событий, структурированным просмотром и настройкой ответов.",
-          "cover": "./assets/covers/rusty-hook.webp",
-          "details": "Наблюдайте входящие webhook-события в реальном времени, изучайте структуру запросов и настраивайте ответы интеграции."
+          "description": "Self-hosted инспектор webhook-запросов с live-лентой событий, типизированным просмотром запросов и настраиваемыми ответами.",
+          "details": "Входящие webhook-события видны по мере поступления; можно читать структуру запроса и задавать ответ, который получит интеграция."
         },
         {
           "name": "PentaCore",
           "area": "AI tooling",
           "area_label": "AI-инструменты",
-          "mark": "P/04",
           "stack": "Rust · MCP · SQLite",
           "url": "https://github.com/DroBov1Tya/PentaCore",
-          "index": "04",
-          "description": "Постоянная память AI-агентов: цели, попытки и находки, которые переживают смену сессий.",
-          "cover": "./assets/covers/pentacore.webp",
-          "details": "Сохраняйте цели, попытки и находки агента между сессиями и находите нужный контекст через полнотекстовый поиск на SQLite."
+          "description": "Постоянная рабочая память AI-агентов: цели, попытки и находки, которые сохраняются между сессиями.",
+          "details": "Цели, попытки и находки агента хранятся между сессиями; полнотекстовый поиск на SQLite помогает вернуться к нужному контексту."
         },
         {
           "name": "DBMorph",
           "area": "Data systems",
           "area_label": "Данные",
-          "mark": "D/05",
           "stack": "Rust · streaming ETL",
           "url": "https://github.com/DroBov1Tya/DBMorph",
-          "index": "05",
-          "description": "Потоковый конвертер больших и неидеальных файлов: определяет кодировку, чинит строки и держит расход памяти ровным.",
-          "cover": "./assets/covers/dbmorph.webp",
-          "details": "Обрабатывайте большие CSV, TXT и SQL-дампы потоком, определяйте кодировку и разделители автоматически и не загружайте весь набор в память."
+          "description": "Потоковый конвертер больших и неаккуратных файлов с данными. Определяет кодировку, чинит строки и держит расход памяти ровным.",
+          "details": "Большие CSV, TXT и SQL-дампы обрабатываются потоком; кодировки и разделители определяются автоматически, и весь набор никогда не загружается в память."
         }
       ],
-      "details_toggle": "Чуть подробнее"
+      "more_work": "Другие эксперименты и инструменты — на GitHub.",
+      "all_projects_action": "Все репозитории"
     },
     "about": {
-      "eyebrow": "02 / МОЙ ПОДХОД",
-      "title_first": "Сделать",
-      "title_second": "невидимое видимым.",
-      "description": "Безопасность помогает ясно видеть систему: где проходит граница доверия, где она протекает и что происходит за пределами happy path.",
+      "title": "Подход",
+      "description": "Безопасность — это способ ясно видеть систему: где находится доверие, где оно утекает и что происходит, когда happy path заканчивается.",
       "principles": [
         {
           "title": "Проверять логику",
-          "description": "Web-приложения, API и инфраструктура. Бизнес-правила, authentication flows и пограничные случаи между ними."
+          "description": "Web-приложения, API и инфраструктура. Бизнес-правила, сценарии аутентификации и пограничные случаи между ними."
         },
         {
-          "title": "Создавать защиту",
-          "description": "Асинхронные backend-сервисы и инструменты на Rust и Python — с безопасными настройками по умолчанию."
+          "title": "Строить ограждения",
+          "description": "Асинхронные backend-сервисы и практичные инструменты на Rust и Python с безопасными настройками по умолчанию."
         },
         {
-          "title": "Оставлять прозрачность",
+          "title": "Оставлять систему прозрачной",
           "description": "Полезные системы показывают своё состояние, допущения и сценарии отказа тем, кто ими управляет."
         }
-      ],
-      "ticker": "БЕЗОПАСНОСТЬ — ПРАКТИКА  ·  RUST — ИНСТРУМЕНТ  ·  ЛЮБОПЫТСТВО — МЕТОД"
+      ]
     },
     "contact": {
-      "eyebrow": "03 / НА СВЯЗИ",
-      "title_first": "Есть система",
-      "title_second": "под вопросом?",
-      "description": "Хорошая работа начинается с конкретной задачи и прямого разговора.",
-      "action": "Связаться",
-      "linkedin_label": "LinkedIn ↗",
-      "github_label": "GitHub ↗",
-      "telegram_label": "Telegram ↗",
-      "telegram_channel_label": "Telegram-канал ↗",
-      "social_links_label": "Социальные сети"
+      "title": "Контакт",
+      "description": "Если у вас конкретная задача по безопасности приложений или инструментам на Rust — напишите мне.",
+      "action": "Написать в LinkedIn",
+      "github_label": "GitHub",
+      "telegram_label": "Telegram",
+      "telegram_channel_label": "Telegram-канал",
+      "social_links_label": "Другие площадки"
     },
     "footer": {
-      "tagline": "Создано на Rust, с интересом и вниманием.",
-      "copyright": "© 2026"
+      "tagline": "Neil Ermak · сделано на Rust и Yew",
+      "back_to_top": "Наверх"
     }
   }
 }

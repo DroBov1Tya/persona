@@ -3,24 +3,60 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#11120f" />
-    <meta name="description" content="Neil Ermak — Application Security Engineer and Rust developer building secure infrastructure." />
+    <meta name="theme-color" content="#0e0f18" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Neil Ermak is an Application Security Engineer who builds open-source tools in Rust, including the Dusk Code coding agent." />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
-    <title>Neil Ermak — Security, with intent</title>
+    <title>Neil Ermak — Application Security Engineer</title>
+    <link rel="canonical" href="https://drobov1tya.github.io/persona/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://drobov1tya.github.io/persona/" />
+    <meta property="og:title" content="Neil Ermak — Application Security Engineer" />
+    <meta property="og:description" content="Neil Ermak is an Application Security Engineer who builds open-source tools in Rust, including the Dusk Code coding agent." />
+    <meta property="og:image" content="https://drobov1tya.github.io/persona/assets/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Neil Ermak, Application Security Engineer, on a dusk sky" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link data-trunk rel="css" href="style.css" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link data-trunk rel="copy-file" href="favicon.svg" />
-    <link data-trunk rel="copy-file" href="assets/hero-map.webp" data-target-path="assets" />
-    <link data-trunk rel="copy-file" href="assets/covers/aether.webp" data-target-path="assets/covers" />
-    <link data-trunk rel="copy-file" href="assets/covers/kali-mcp.webp" data-target-path="assets/covers" />
-    <link data-trunk rel="copy-file" href="assets/covers/rusty-hook.webp" data-target-path="assets/covers" />
-    <link data-trunk rel="copy-file" href="assets/covers/pentacore.webp" data-target-path="assets/covers" />
-    <link data-trunk rel="copy-file" href="assets/covers/dbmorph.webp" data-target-path="assets/covers" />
+    <link data-trunk rel="copy-file" href="assets/og.jpg" data-target-path="assets" />
+    <link data-trunk rel="copy-file" href="assets/dusk-mark.webp" data-target-path="assets" />
+    <link data-trunk rel="copy-file" href="assets/covers/dusk-code.webp" data-target-path="assets/covers" />
   </head>
   <body>
     <div id="root">
-      <div class="boot" aria-hidden="true"></div>
+      <!--
+        Static first paint and the content crawlers see. It mirrors the header in src/main.rs;
+        Yew clears #root when it mounts. scripts/finalize_csp.py rewrites every data-content
+        text and data-href link from the "en" locale of content.json.
+      -->
+      <header class="sky" id="top">
+        <div class="wrap">
+          <nav class="topbar" aria-label="Main navigation">
+            <a class="brand" href="#top">
+              <img src="./favicon.svg" alt="" width="30" height="30" />
+              <span data-content="header.brand">Neil Ermak</span>
+            </a>
+            <a class="nav-link" href="#work" data-content="header.navigation.0.label">Projects</a>
+            <a class="nav-link" href="#about" data-content="header.navigation.1.label">Approach</a>
+            <a class="nav-link" href="#contact" data-content="header.navigation.2.label">Contact</a>
+            <button class="lang-toggle" type="button" disabled data-content="common.language_button">RU</button>
+          </nav>
+          <div class="hero">
+            <h1 data-content="hero.name">Neil Ermak</h1>
+            <p class="role" data-content="hero.role">Application Security Engineer · Rust</p>
+            <p class="lead" data-content="hero.description">I work on application security and build systems in Rust.</p>
+            <div class="actions">
+              <a class="button" href="#work" data-content="hero.primary_action">See the projects</a>
+              <a class="chip-link" href="https://github.com/DroBov1Tya" data-href="links.github" target="_blank" rel="noopener noreferrer" data-content="hero.github_action">GitHub</a>
+              <a class="chip-link" href="https://www.linkedin.com/in/neil-ermak/" data-href="links.linkedin" target="_blank" rel="noopener noreferrer" data-content="hero.linkedin_action">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </header>
     </div>
     <link data-trunk rel="rust" data-wasm-opt="0" />
   </body>
