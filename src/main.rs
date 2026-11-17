@@ -4,10 +4,28 @@ use content_schema::{Locale, Project, SiteContent};
 use std::sync::OnceLock;
 use yew::prelude::*;
 
+const ALL_PROJECTS: &str = "All";
+
 #[derive(Clone, Copy, PartialEq)]
 enum Language {
     En,
     Ru,
+}
+
+impl Language {
+    fn other(self) -> Self {
+        match self {
+            Language::En => Language::Ru,
+            Language::Ru => Language::En,
+        }
+    }
+
+    fn code(self) -> &'static str {
+        match self {
+            Language::En => "en",
+            Language::Ru => "ru",
+        }
+    }
 }
 
 static CONTENT: OnceLock<SiteContent> = OnceLock::new();
@@ -27,195 +45,175 @@ fn locale(language: Language) -> &'static Locale {
     }
 }
 
+/// Keeps `<html lang>`, the title and the meta description in step with the chosen language.
+fn sync_document(language: Language) {
+    let Some(document) = web_sys::window().and_then(|window| window.document()) else {
+        return;
+    };
+    let seo = &locale(language).seo;
+    document.set_title(&seo.title);
+    // A missing element or a refused attribute only leaves the static English metadata in place.
+    if let Some(root) = document.document_element() {
+        let _ = root.set_attribute("lang", language.code());
+    }
+    if let Ok(Some(description)) = document.query_selector("meta[name='description']") {
+        let _ = description.set_attribute("content", &seo.description);
+    }
+}
+
+fn external_link(class: &'static str, url: &str, label: &str) -> Html {
+    html! {
+        <a {class} href={url.to_owned()} target="_blank" rel="noopener noreferrer">{label}</a>
+    }
+}
+
+fn project_card(project: &Project, details_toggle: &str) -> Html {
+    html! {
+        <article class="project-card">
+            <p class="project-area">{&project.area_label}</p>
+            <h3>{external_link("project-name", &project.url, &project.name)}</h3>
+            <p class="project-description">{&project.description}</p>
+            <details class="project-details">
+                <summary>{details_toggle}</summary>
+                <p>{&project.details}</p>
+            </details>
+            <p class="project-stack">{&project.stack}</p>
+        </article>
+    }
+}
+
 #[function_component(App)]
 fn app() -> Html {
     let lang = use_state(|| Language::En);
-    let filter = use_state(|| "All".to_owned());
-    let menu_open = use_state(|| false);
+    let filter = use_state(|| ALL_PROJECTS.to_owned());
     let data = locale(*lang);
-    let ru = *lang == Language::Ru;
     let visible: Vec<&Project> = data
         .work
         .projects
         .iter()
-        .filter(|project| *filter == "All" || project.area == *filter)
+        .filter(|project| *filter == ALL_PROJECTS || project.area == *filter)
         .collect();
 
-    use_effect_with(*lang, |language| {
-        if let Some(document) = web_sys::window().and_then(|window| window.document()) {
-            if let Some(root) = document.document_element() {
-                let _ = root.set_attribute(
-                    "lang",
-                    if *language == Language::Ru {
-                        "ru"
-                    } else {
-                        "en"
-                    },
-                );
-            }
-            document.set_title(&locale(*language).seo.title);
-            if let Ok(Some(description)) = document.query_selector("meta[name='description']") {
-                let _ = description.set_attribute("content", &locale(*language).seo.description);
-            }
-        }
-        || ()
-    });
+    use_effect_with(*lang, |language| sync_document(*language));
 
     let toggle_language = {
         let lang = lang.clone();
-        Callback::from(move |_| {
-            lang.set(if *lang == Language::En {
-                Language::Ru
-            } else {
-                Language::En
-            });
-        })
+        Callback::from(move |_| lang.set(lang.other()))
     };
-    let toggle_menu = {
-        let menu_open = menu_open.clone();
-        Callback::from(move |_| menu_open.set(!*menu_open))
-    };
-    let close_menu = {
-        let menu_open = menu_open.clone();
-        Callback::from(move |_| menu_open.set(false))
-    };
+    let featured = &data.work.featured;
 
+    // The header below is mirrored by the static fallback in index.html; keep the markup the same.
     html! {
         <>
             <a class="skip-link" href="#main">{&data.common.skip_to_content}</a>
-            <header class="topbar">
-                <a class="wordmark" href="#top" aria-label={data.common.home.as_str()}>
-                    <span class="wordmark-symbol">{&data.header.mark}</span>
-                    <span>{&data.header.brand}</span>
-                </a>
-                <nav class={classes!("nav-links", (*menu_open).then_some("is-open"))} aria-label={data.common.main_navigation.as_str()}>
-                    {for data.header.navigation.iter().map(|item| html! {
-                        <a href={format!("#{}", item.id)} onclick={close_menu.clone()}>{&item.label}</a>
-                    })}
-                </nav>
-                <div class="top-actions">
-                    <button class="lang-toggle" type="button" onclick={toggle_language} aria-label={if ru { data.common.switch_to_english.as_str() } else { data.common.switch_to_russian.as_str() }}>
-                        {&data.common.language_button}
-                    </button>
-                    <button class="menu-toggle" type="button" onclick={toggle_menu} aria-expanded={if *menu_open { "true" } else { "false" }} aria-label={data.common.toggle_navigation.as_str()}>
-                        <span></span><span></span>
-                    </button>
+            <header class="sky" id="top">
+                <div class="wrap">
+                    <nav class="topbar" aria-label={data.common.main_navigation.clone()}>
+                        <a class="brand" href="#top" aria-label={data.common.home.clone()}>
+                            <img src="./favicon.svg" alt="" width="30" height="30" />
+                            <span>{&data.header.brand}</span>
+                        </a>
+                        {for data.header.navigation.iter().map(|item| html! {
+                            <a class="nav-link" href={format!("#{}", item.id)}>{&item.label}</a>
+                        })}
+                        <button class="lang-toggle" type="button" onclick={toggle_language} aria-label={data.common.switch_language.clone()}>
+                            {&data.common.language_button}
+                        </button>
+                    </nav>
+                    <div class="hero">
+                        <h1>{&data.hero.name}</h1>
+                        <p class="role">{&data.hero.role}</p>
+                        <p class="lead">{&data.hero.description}</p>
+                        <div class="actions">
+                            <a class="button" href="#work">{&data.hero.primary_action}</a>
+                            {external_link("chip-link", &data.links.github, &data.hero.github_action)}
+                            {external_link("chip-link", &data.links.linkedin, &data.hero.linkedin_action)}
+                        </div>
+                    </div>
                 </div>
             </header>
 
             <main id="main">
-                <section class="hero" id="top" aria-labelledby="hero-title">
-                    <div class="hero-art" role="img" aria-label={data.hero.art_alt.as_str()}></div>
-                    <div class="hero-shade"></div>
-                    <div class="hero-content">
-                        <div class="eyebrow"><span class="status-dot"></span>{&data.hero.eyebrow}</div>
-                        <h1 id="hero-title">{&data.hero.title_first}<br/><em>{&data.hero.title_second}</em></h1>
-                        <p class="hero-copy">{&data.hero.description}</p>
-                        <div class="hero-cta">
-                            <a class="button button-primary" href="#work">{&data.hero.primary_action}<span aria-hidden="true">{" ↘"}</span></a>
-                            <a class="text-link" href={data.links.linkedin.clone()} target="_blank" rel="noopener noreferrer">{&data.hero.linkedin_action}</a>
-                        </div>
-                        <div class="hero-meta">
-                            <div><span class="meta-label">{&data.hero.focus_label}</span><span>{&data.hero.focus_value}</span></div>
-                            <div><span class="meta-label">{&data.hero.building_label}</span><span>{&data.hero.building_value}</span></div>
-                        </div>
-                    </div>
-                    <div class="hero-caption"><span>{&data.hero.caption_index}</span>{&data.hero.caption}</div>
-                    <a class="scroll-cue" href="#work" aria-label={data.hero.scroll_label.as_str()}>{"↓"}</a>
-                </section>
+                <section id="work" aria-labelledby="work-title">
+                    <div class="wrap">
+                        <h2 id="work-title">{&data.work.title}</h2>
+                        <p class="sub">{&data.work.description}</p>
 
-                <section class="work-section section-wrap" id="work" aria-labelledby="work-title">
-                    <div class="section-heading">
-                        <div>
-                            <p class="eyebrow eyebrow-dark">{&data.work.eyebrow}</p>
-                            <h2 id="work-title">{&data.work.title_first}<br/><em>{&data.work.title_second}</em></h2>
-                        </div>
-                        <p class="section-intro">{&data.work.description}</p>
-                    </div>
-                    <div class="filter-row" role="group" aria-label={data.work.filter_label.as_str()}>
-                        {for data.work.filters.iter().map(|item| {
-                            let id = item.id.clone();
-                            let active = *filter == item.id;
-                            let filter = filter.clone();
-                            html! {
-                                <button class={classes!("filter-chip", active.then_some("active"))} type="button" aria-pressed={if active { "true" } else { "false" }} onclick={Callback::from(move |_| filter.set(id.clone()))}>{&item.label}</button>
-                            }
-                        })}
-                    </div>
-                    <p class="sr-only" aria-live="polite">{&data.common.showing_projects.replace("{count}", &visible.len().to_string())}</p>
-                    <div class="project-grid">
-                        {for visible.iter().map(|project| html! {
-                            <article class="project-card">
-                                <a class="project-cover-link" href={project.url.clone()} target="_blank" rel="noopener noreferrer" aria-label={project.name.as_str()}>
-                                  <div class="project-visual">
-                                    <img class="project-cover" src={project.cover.clone()} alt="" loading="lazy" decoding="async" />
-                                    <span class="project-mark">{&project.mark}</span>
-                                    <span class="project-index">{&project.index}</span>
-                                    <span class="visual-label">{&project.area_label.to_uppercase()}</span>
-                                  </div>
-                                </a>
-                                <div class="project-info">
-                                    <div class="project-title-line"><h3><a href={project.url.clone()} target="_blank" rel="noopener noreferrer">{&project.name}</a></h3><a href={project.url.clone()} target="_blank" rel="noopener noreferrer" aria-label={project.name.as_str()}><span aria-hidden="true">{"↗"}</span></a></div>
-                                    <p>{&project.description}</p>
-                                    <details class="project-details">
-                                        <summary>{&data.work.details_toggle}</summary>
-                                        <div class="project-details-content"><p>{&project.details}</p></div>
-                                    </details>
-                                    <div class="project-foot"><span>{&project.stack}</span><span>{&data.common.open_project}</span></div>
+                        <article class="featured">
+                            <div class="featured-body">
+                                <p class="featured-label">{&featured.label}</p>
+                                <h3>
+                                    <img src="./assets/dusk-mark.webp" alt="" width="40" height="40" />
+                                    {&featured.name}
+                                </h3>
+                                <p class="featured-description">{&featured.description}</p>
+                                <p class="project-stack">{&featured.stack}</p>
+                                <div class="actions">
+                                    {for featured.links.iter().map(|link| external_link("chip-link", &link.url, &link.label))}
                                 </div>
-                            </article>
-                        })}
-                    </div>
-                    <div class="all-work">
-                        <span>{&data.common.more_work}</span>
-                        <a class="text-link dark-link" href={data.links.github.clone()} target="_blank" rel="noopener noreferrer">{&data.work.all_projects_action}</a>
+                            </div>
+                            <img class="featured-shot" src={featured.image.clone()} alt={featured.image_alt.clone()} width="1600" height="1000" decoding="async" />
+                        </article>
+
+                        <div class="filter-row" role="group" aria-label={data.work.filter_label.clone()}>
+                            {for data.work.filters.iter().map(|item| {
+                                let id = item.id.clone();
+                                let active = *filter == item.id;
+                                let filter = filter.clone();
+                                html! {
+                                    <button class="filter-chip" type="button" aria-pressed={if active { "true" } else { "false" }} onclick={Callback::from(move |_| filter.set(id.clone()))}>{&item.label}</button>
+                                }
+                            })}
+                        </div>
+                        <p class="sr-only" aria-live="polite">{data.common.showing_projects.replace("{count}", &visible.len().to_string())}</p>
+                        <div class="project-grid">
+                            {for visible.iter().map(|project| project_card(project, &data.work.details_toggle))}
+                            <div class="project-card project-more">
+                                <p>{&data.work.more_work}</p>
+                                {external_link("chip-link", &data.links.github, &data.work.all_projects_action)}
+                            </div>
+                        </div>
                     </div>
                 </section>
 
-                <section class="approach-section" id="about" aria-labelledby="about-title">
-                    <div class="section-wrap approach-inner">
-                        <div class="approach-intro">
-                            <p class="eyebrow">{&data.about.eyebrow}</p>
-                            <h2 id="about-title">{&data.about.title_first}<br/><em>{&data.about.title_second}</em></h2>
-                            <p>{&data.about.description}</p>
-                        </div>
-                        <div class="principles">
-                            {for data.about.principles.iter().enumerate().map(|(index, item)| html! {
-                                <article class="principle"><span class="principle-no">{format!("{:02}", index + 1)}</span><div><h3>{&item.title}</h3><p>{&item.description}</p></div><span class="principle-arrow" aria-hidden="true">{"↘"}</span></article>
+                <section id="about" aria-labelledby="about-title">
+                    <div class="wrap">
+                        <h2 id="about-title">{&data.about.title}</h2>
+                        <p class="sub">{&data.about.description}</p>
+                        <div class="points">
+                            {for data.about.principles.iter().map(|item| html! {
+                                <div><h3>{&item.title}</h3><p>{&item.description}</p></div>
                             })}
                         </div>
                     </div>
-                    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>{&data.about.ticker}</span></div></div>
                 </section>
 
-                <section class="contact-section section-wrap" id="contact" aria-labelledby="contact-title">
-                    <div class="contact-orb" aria-hidden="true"></div>
-                    <p class="eyebrow eyebrow-dark">{&data.contact.eyebrow}</p>
-                    <h2 id="contact-title">{&data.contact.title_first}<br/><em>{&data.contact.title_second}</em></h2>
-                    <p class="contact-copy">{&data.contact.description}</p>
-                    <div class="contact-links">
-                        <a class="button button-dark" href={data.links.linkedin.clone()} target="_blank" rel="noopener noreferrer">{&data.contact.action}{" ↗"}</a>
-                        <nav class="social-links" aria-label={data.contact.social_links_label.as_str()}>
-                            <a class="social-link" href={data.links.github.clone()} target="_blank" rel="noopener noreferrer">{&data.contact.github_label}</a>
-                            <a class="social-link" href={data.links.linkedin.clone()} target="_blank" rel="noopener noreferrer">{&data.contact.linkedin_label}</a>
-                            <a class="social-link" href={data.links.telegram.clone()} target="_blank" rel="noopener noreferrer">{&data.contact.telegram_label}</a>
-                            <a class="social-link" href={data.links.telegram_channel.clone()} target="_blank" rel="noopener noreferrer">{&data.contact.telegram_channel_label}</a>
+                <section id="contact" aria-labelledby="contact-title">
+                    <div class="wrap">
+                        <h2 id="contact-title">{&data.contact.title}</h2>
+                        <p class="sub">{&data.contact.description}</p>
+                        <nav class="actions" aria-label={data.contact.social_links_label.clone()}>
+                            {external_link("button", &data.links.linkedin, &data.contact.action)}
+                            {external_link("chip-link", &data.links.github, &data.contact.github_label)}
+                            {external_link("chip-link", &data.links.telegram, &data.contact.telegram_label)}
+                            {external_link("chip-link", &data.links.telegram_channel, &data.contact.telegram_channel_label)}
                         </nav>
                     </div>
                 </section>
             </main>
 
-            <footer class="footer">
-                <a class="wordmark footer-mark" href="#top"><span class="wordmark-symbol">{&data.header.mark}</span><span>{&data.header.brand}</span></a>
-                <span>{&data.footer.tagline}</span>
-                <a href="#top">{&data.common.back_to_top}</a>
-                <span class="copyright">{&data.footer.copyright}</span>
-            </footer>
+            <div class="wrap">
+                <footer>
+                    <span>{&data.footer.tagline}</span>
+                    <a href="#top">{&data.footer.back_to_top}</a>
+                </footer>
+            </div>
         </>
     }
 }
 
 fn main() {
+    // Yew clears the root before mounting, so the static fallback in index.html is replaced.
     yew::Renderer::<App>::with_root(
         web_sys::window()
             .and_then(|window| window.document())
